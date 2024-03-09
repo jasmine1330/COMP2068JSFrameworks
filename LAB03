@@ -1,25 +1,25 @@
 const connect = require('connect');
 const url = require('url');
 
-function calculate(method, a, b) {
+function calculate(method, x, y) {
     let result;
     switch (method) {
         case 'add':
-            result = a + b;
+            result = x + y;
             break;
         case 'subtract':
-            result = a - b;
+            result = x - y;
             break;
         case 'multiply':
-            result = a * b;
+            result = x * y;
             break;
         case 'divide':
-            result = a / b;
+            result = x / y;
             break;
         default:
             return 'Invalid method';
     }
-    return `${a} ${method} ${b} = ${result}`;
+    return `${x} ${method} ${y} = ${result}`;
 }
 
 const app = connect();
@@ -28,15 +28,15 @@ app.use((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const query = parsedUrl.query;
     const method = query.method;
-    const a = parseInt(query.a);
-    const b = parseInt(query.b);
+    const x = parseInt(query.x);
+    const y = parseInt(query.y);
 
-    if (isNaN(a) || isNaN(b)) {
+    if (isNaN(x) || isNaN(y)) {
         res.end('Invalid input');
         return;
     }
 
-    const output = calculate(method, a, b);
+    const output = calculate(method, x, y);
     res.end(output);
 });
 
